@@ -1,4 +1,4 @@
-namespace Chronicle.Core.Sinks; 
+namespace Chronicle.Core.Sinks;
 
 /// <summary>
 /// The marker interface for an output session. 
@@ -8,7 +8,7 @@ public interface IOutputSession {
 }
 
 /// <summary>
-/// A basic otuput session.
+/// A basic output session.
 /// </summary>
 /// <param name="Destination">Destination of the data</param>
 public record OutputSession(string Destination);

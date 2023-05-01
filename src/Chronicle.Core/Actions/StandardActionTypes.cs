@@ -1,126 +1,140 @@
 namespace Chronicle.Core.Actions;
 
-using System.Runtime.CompilerServices;
 using Chronicle.Core.Model;
-using Chronicle.Core.Model.Configuration;
+using Chronicle.Core.Model.Configuration.Settings;
 using CSharpFunctionalExtensions;
 
 /// <summary>
 /// A backup action that outputs text.
 /// </summary>
-public abstract class TextBackupAction : IBackupAction<TextBackupData, MemoryOutputDetails> {
+public abstract class TextBackupAction : IBackupAction {
   /// <inheritdoc />
-  public OutputType SupportedOutputType(ISettings settings) => OutputType.Text;
+  public OutputType SupportedOutputType(IActionSettings settings) => OutputType.Text;
   /// <inheritdoc />
-  public bool SupportsRestoreWithoutFiles(ISettings settings) => true;
+  public bool SupportsRestoreWithoutFiles(IActionSettings settings) => true;
 
   // Remaining methods should be defined by the specific action.
 
   /// <inheritdoc />
-  public abstract bool SupportsRestore(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsVerify(ISettings settings);
+  public abstract Result<IActionSettings> ResolveActionSettings(Dictionary<string, object> settings);
 
   /// <inheritdoc />
-  public abstract Task<Result<TextBackupData>> Backup(ISettings settings, MemoryOutputDetails outputDetails);
+  public abstract bool SupportsRestore(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Restore(ISettings settings, TextBackupData backupData);
+  public abstract bool SupportsVerify(IActionSettings settings);
+
   /// <inheritdoc />
-  public abstract Task<Result> Verify(ISettings settings, TextBackupData backupData);
+  public abstract Task<Result<IBackupData>> Backup(IActionSettings settings, IOutputDetails outputDetails);
+  /// <inheritdoc />
+  public abstract Task<Result> Restore(IActionSettings settings, IBackupData backupData);
+  /// <inheritdoc />
+  public abstract Task<Result> Verify(IActionSettings settings, IBackupData backupData);
 }
 
 /// <summary>
 /// A backup action that outputs binary data.
 /// </summary>
-public abstract class BinaryBackupAction : IBackupAction<BinaryBackupData, MemoryOutputDetails> {
+public abstract class BinaryBackupAction : IBackupAction {
   /// <inheritdoc />
-  public OutputType SupportedOutputType(ISettings settings) => OutputType.Binary;
+  public OutputType SupportedOutputType(IActionSettings settings) => OutputType.Binary;
   /// <inheritdoc />
-  public bool SupportsRestoreWithoutFiles(ISettings settings) => true;
+  public bool SupportsRestoreWithoutFiles(IActionSettings settings) => true;
 
   // Remaining methods should be defined by the specific action.
 
   /// <inheritdoc />
-  public abstract bool SupportsRestore(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsVerify(ISettings settings);
+  public abstract Result<IActionSettings> ResolveActionSettings(Dictionary<string, object> settings);
 
   /// <inheritdoc />
-  public abstract Task<Result<BinaryBackupData>> Backup(ISettings settings, MemoryOutputDetails outputDetails);
+  public abstract bool SupportsRestore(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Restore(ISettings settings, BinaryBackupData backupData);
+  public abstract bool SupportsVerify(IActionSettings settings);
+
   /// <inheritdoc />
-  public abstract Task<Result> Verify(ISettings settings, BinaryBackupData backupData);
+  public abstract Task<Result<IBackupData>> Backup(IActionSettings settings, IOutputDetails outputDetails);
+  /// <inheritdoc />
+  public abstract Task<Result> Restore(IActionSettings settings, IBackupData backupData);
+  /// <inheritdoc />
+  public abstract Task<Result> Verify(IActionSettings settings, IBackupData backupData);
 }
 
 /// <summary>
 /// A backup action that outputs a stream.
 /// </summary>
-public abstract class StreamBackupAction : IBackupAction<StreamBackupData, MemoryOutputDetails> {
+public abstract class StreamBackupAction : IBackupAction {
   /// <inheritdoc />
-  public OutputType SupportedOutputType(ISettings settings) => OutputType.Stream;
+  public OutputType SupportedOutputType(IActionSettings settings) => OutputType.Stream;
   /// <inheritdoc />
-  public bool SupportsRestoreWithoutFiles(ISettings settings) => true;
+  public bool SupportsRestoreWithoutFiles(IActionSettings settings) => true;
 
   // Remaining methods should be defined by the specific action.
 
   /// <inheritdoc />
-  public abstract bool SupportsRestore(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsVerify(ISettings settings);
+  public abstract Result<IActionSettings> ResolveActionSettings(Dictionary<string, object> settings);
 
   /// <inheritdoc />
-  public abstract Task<Result<StreamBackupData>> Backup(ISettings settings, MemoryOutputDetails outputDetails);
+  public abstract bool SupportsRestore(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Restore(ISettings settings, StreamBackupData backupData);
+  public abstract bool SupportsVerify(IActionSettings settings);
+
   /// <inheritdoc />
-  public abstract Task<Result> Verify(ISettings settings, StreamBackupData backupData);
+  public abstract Task<Result<IBackupData>> Backup(IActionSettings settings, IOutputDetails outputDetails);
+  /// <inheritdoc />
+  public abstract Task<Result> Restore(IActionSettings settings, IBackupData backupData);
+  /// <inheritdoc />
+  public abstract Task<Result> Verify(IActionSettings settings, IBackupData backupData);
 }
 
 /// <summary>
 /// A backup action that outputs a file at a location provided by the system.
 /// </summary>
-public abstract class ProvidedFileBackupAction : IBackupAction<FileBackupData, FileOutputDetails> {
+public abstract class ProvidedFileBackupAction : IBackupAction {
   /// <inheritdoc />
-  public OutputType SupportedOutputType(ISettings settings) => OutputType.ProvidedFile;
+  public OutputType SupportedOutputType(IActionSettings settings) => OutputType.ProvidedFile;
 
   // Remaining methods should be defined by the specific action.
 
   /// <inheritdoc />
-  public abstract bool SupportsVerify(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsRestore(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsRestoreWithoutFiles(ISettings settings);
+  public abstract Result<IActionSettings> ResolveActionSettings(Dictionary<string, object> settings);
 
   /// <inheritdoc />
-  public abstract Task<Result<FileBackupData>> Backup(ISettings settings, FileOutputDetails outputDetails);
+  public abstract bool SupportsVerify(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Restore(ISettings settings, FileBackupData backupData);
+  public abstract bool SupportsRestore(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Verify(ISettings settings, FileBackupData backupData);
+  public abstract bool SupportsRestoreWithoutFiles(IActionSettings settings);
+
+  /// <inheritdoc />
+  public abstract Task<Result<IBackupData>> Backup(IActionSettings settings, IOutputDetails outputDetails);
+  /// <inheritdoc />
+  public abstract Task<Result> Restore(IActionSettings settings, IBackupData backupData);
+  /// <inheritdoc />
+  public abstract Task<Result> Verify(IActionSettings settings, IBackupData backupData);
 }
 
 /// <summary>
 /// A backup action that outputs a file at a location of its own choosing.
 /// </summary>
-public abstract class CustomFileBackupAction : IBackupAction<FileBackupData, FileOutputDetails> {
+public abstract class CustomFileBackupAction : IBackupAction {
   /// <inheritdoc />
-  public OutputType SupportedOutputType(ISettings settings) => OutputType.CustomFile;
+  public OutputType SupportedOutputType(IActionSettings settings) => OutputType.CustomFile;
 
   // Remaining methods should be defined by the specific action.
 
   /// <inheritdoc />
-  public abstract bool SupportsVerify(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsRestore(ISettings settings);
-  /// <inheritdoc />
-  public abstract bool SupportsRestoreWithoutFiles(ISettings settings);
+  public abstract Result<IActionSettings> ResolveActionSettings(Dictionary<string, object> settings);
 
   /// <inheritdoc />
-  public abstract Task<Result<FileBackupData>> Backup(ISettings settings, FileOutputDetails outputDetails);
+  public abstract bool SupportsVerify(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Restore(ISettings settings, FileBackupData backupData);
+  public abstract bool SupportsRestore(IActionSettings settings);
   /// <inheritdoc />
-  public abstract Task<Result> Verify(ISettings settings, FileBackupData backupData);
+  public abstract bool SupportsRestoreWithoutFiles(IActionSettings settings);
+
+  /// <inheritdoc />
+  public abstract Task<Result<IBackupData>> Backup(IActionSettings settings, IOutputDetails outputDetails);
+  /// <inheritdoc />
+  public abstract Task<Result> Restore(IActionSettings settings, IBackupData backupData);
+  /// <inheritdoc />
+  public abstract Task<Result> Verify(IActionSettings settings, IBackupData backupData);
 }
